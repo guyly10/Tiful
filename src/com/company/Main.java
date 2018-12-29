@@ -41,9 +41,9 @@ public class Main {
         A.brutoDemand.add(10,12);
         A.currentSupply.add(4, 30);
 
-        A.calculateNetDemand();sdfsadfsadfsadf
+        A.calculateNetDemand();
         A.calculateOrder();
-        A.calculateSupplyEndOfPeriod();asdasdasdasdfasdfasdfsdf
+        A.calculateSupplyEndOfPeriod();
 
         B.calculateNetDemand();
         B.calculateBrutoDemand();
