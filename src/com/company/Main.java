@@ -10,55 +10,81 @@ public class Main {
         Item C = new Item(3, A, 2, 0);
         Item D = new Item(1, C, 1, 0);
 
-        ArrayList<Integer> brutoDemand = new ArrayList<>();
-        for (int i = 0; i <= 10; i++){
-            A.brutoDemand.add(i, 0);
-            A.currentSupply.add(i, 0);
-            A.supplyEndOfPeriod.add(i, 0);
-            A.netDemand.add(i, 0);
-            A.order.add(i, 0);
-            B.brutoDemand.add(i, 0);
-            B.currentSupply.add(i, 0);
-            B.supplyEndOfPeriod.add(i, 0);
-            B.netDemand.add(i, 0);
-            B.order.add(i, 0);
-            C.brutoDemand.add(i, 0);
-            C.currentSupply.add(i, 0);
-            C.supplyEndOfPeriod.add(i, 0);
-            C.netDemand.add(i, 0);
-            C.order.add(i, 0);
-            D.brutoDemand.add(i, 0);
-            D.currentSupply.add(i, 0);
-            D.supplyEndOfPeriod.add(i, 0);
-            D.netDemand.add(i, 0);
-            D.order.add(i, 0);
-        }
-        A.brutoDemand.add(5, 11);
-        A.brutoDemand.add(6,16);
-        A.brutoDemand.add(7,20);
-        A.brutoDemand.add(8,5);
-        A.brutoDemand.add(9,10);
-        A.brutoDemand.add(10,12);
-        A.currentSupply.add(4, 30);
+        A.brutoDemand[5] = 11;
+        A.brutoDemand[6] = 16;
+        A.brutoDemand[7] = 20;
+        A.brutoDemand[8] = 5;
+        A.brutoDemand[9] = 10;
+        A.brutoDemand[10] = 12;
+        A.currentSupply[4] = 30;
 
         A.calculateNetDemand();
         A.calculateOrder();
         A.calculateSupplyEndOfPeriod();
 
-        B.calculateNetDemand();
+        System.out.println("Plan For Product A");
+        print(A);
+        System.out.println("*********************************************");
+
         B.calculateBrutoDemand();
+        B.calculateNetDemand();
         B.calculateOrder();
         B.calculateSupplyEndOfPeriod();
 
-        C.calculateNetDemand();
+        System.out.println("Plan For Product B");
+        print(B);
+        System.out.println("*********************************************");
+
         C.calculateBrutoDemand();
+        C.calculateNetDemand();
         C.calculateOrder();
         C.calculateSupplyEndOfPeriod();
 
-        D.calculateNetDemand();
+        System.out.println("Plan For Product C");
+        print(C);
+        System.out.println("*********************************************");
+
         D.calculateBrutoDemand();
+        D.calculateNetDemand();
         D.calculateOrder();
         D.calculateSupplyEndOfPeriod();
 
+        System.out.println("Plan For Product D");
+        print(D);
+        System.out.println("*********************************************");
+
+    }
+
+    private static void print(Item a) {
+        System.out.println("Gross Demand");
+        printTables(a.brutoDemand);
+        System.out.println();
+        System.out.println("Current Supply");
+        printTables(a.currentSupply);
+        System.out.println();
+        System.out.println("Net Demand");
+        printTables(a.netDemand);
+        System.out.println();
+        System.out.println("Released Order");
+        printTables(a.order);
+        System.out.println();
+        System.out.println("Supply At End Of Period");
+        printTables(a.supplyEndOfPeriod);
+        System.out.println();
+    }
+
+    private static void printTables(Integer [] a) {
+        for (int i = 0; i < 11; i++){
+            if (a[i] != null){
+                System.out.printf("%5d", i);
+            }
+        }
+        System.out.println();
+        for (int i = 0; i < 11; i++){
+            if (a[i] != null){
+                int cast = a[i];
+                System.out.printf("%5d", cast);
+            }
+        }
     }
 }

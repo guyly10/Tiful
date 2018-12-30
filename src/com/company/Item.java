@@ -5,12 +5,13 @@ import java.util.ArrayList;
 public class Item {
 
 
-    public ArrayList<ArrayList<Integer>> table = new ArrayList<ArrayList<Integer>>();
-    public ArrayList<Integer> netDemand = new ArrayList<Integer>();
-    public ArrayList<Integer> supplyEndOfPeriod = new ArrayList<Integer>();
-    public ArrayList<Integer> order = new ArrayList<Integer>();
-    public ArrayList<Integer> currentSupply = new ArrayList<Integer>();
-    public ArrayList<Integer> brutoDemand = new ArrayList<Integer>();
+    public ArrayList<Integer[]> table = new ArrayList<>();
+    Integer[] netDemand = new Integer[11];
+    Integer[] supplyEndOfPeriod = new Integer[11];
+    Integer[] order = new Integer[11];
+    Integer[] currentSupply = new Integer[11];
+    Integer[] brutoDemand = new Integer[11];
+
     public int LT;
     public Item fatherItem;
     Integer necssaryForFatherItem;
@@ -21,6 +22,7 @@ public class Item {
         this.fatherItem = fatherItem;
         this.necssaryForFatherItem = necssaryForFatherItem;
         this.startingSupply = startingSupply;
+        table.add(brutoDemand);
         table.add(currentSupply);
         table.add(netDemand);
         table.add(order);
@@ -28,51 +30,67 @@ public class Item {
 
     }
 
-    public void calculateNetDemand(){
-        for (int i = 0; i <= 10; i++){
-            if (startingSupply != 0){
-                if (startingSupply > brutoDemand.get(i)){
-                    netDemand.add(i, 0);
-                    currentSupply.add(i, startingSupply);
-                    startingSupply = startingSupply - brutoDemand.get(i);
-                }
-                else {
-                    int tmp = brutoDemand.get(i) - startingSupply;
-                    netDemand.add(i, tmp);
-                    startingSupply = 0;
+    public void calculateNetDemand() {
+        for (int i = 0; i <= 10; i++) {
+            if (startingSupply != 0) {
+                if (brutoDemand[i] != null) {
+                    if (startingSupply > brutoDemand[i]) {
+                        netDemand[i] = 0;
+                        currentSupply[i] = startingSupply;
+                        startingSupply = startingSupply - brutoDemand[i];
+                    } else {
+                        int tmp = brutoDemand[i] - startingSupply;
+                        netDemand[i] = tmp;
+                        currentSupply[i] = startingSupply;
+                        startingSupply = 0;
+                    }
                 }
             }
             else {
-                netDemand.add(i,brutoDemand.get(i));
+                netDemand[i] = brutoDemand[i];
+                currentSupply[i] = startingSupply;
             }
         }
     }
 
-    public void calculateOrder(){
-        for (int i = 0; i < 10; i++){
-            if (currentSupply.get(i) < brutoDemand.get(i)){
-                int index = i - LT;
-                int tmp = brutoDemand.get(i) - currentSupply.get(i);
-                order.add(index, tmp);
+    public void calculateOrder() {
+        int j = 1;
+        for (int i = 0; i <= 10; i++) {
+            if (currentSupply[i] != null && j < 11 && brutoDemand[j] != null ) {
+                if (currentSupply[i] < brutoDemand[j]) {
+                    int index = j - LT;
+                    order[index] = netDemand[j];
+                }
             }
+            j++;
         }
-
     }
 
-    public void calculateSupplyEndOfPeriod(){
-        for (int i = 0; i < 10; i++){
-            int tmp = currentSupply.get(i) - brutoDemand.get(i);
-            if (tmp > 0){
-               supplyEndOfPeriod.add(i, tmp);
+    public void calculateSupplyEndOfPeriod() {
+        for (int i = 0; i <= 10; i++) {
+            if (currentSupply[i] != null && brutoDemand[i] != null) {
+                int tmp = currentSupply[i] - brutoDemand[i];
+                if (tmp > 0) {
+                    supplyEndOfPeriod[i] = tmp;
+                }
+                else {
+                    supplyEndOfPeriod[i] = 0;
+                }
             }
         }
-
     }
 
-    public void calculateBrutoDemand(){
-        for (int i = 0; i < 10; i++){
-            int tmp = fatherItem.brutoDemand.get(i) * necssaryForFatherItem;
-            brutoDemand.add(i, tmp);
+    public void calculateBrutoDemand() {
+        for (int i = 0; i <= 10; i++) {
+            if (fatherItem.order[i] != null) {
+                int tmp = fatherItem.order[i] * necssaryForFatherItem;
+                brutoDemand[i] = tmp;
+            }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "AAA";
     }
 }
